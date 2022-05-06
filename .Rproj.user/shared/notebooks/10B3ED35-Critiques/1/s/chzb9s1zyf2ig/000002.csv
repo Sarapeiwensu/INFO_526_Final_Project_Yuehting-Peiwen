@@ -1,0 +1,4 @@
+"0","titanic <- read_csv(""data/titanic.csv"","
+"0","                    col_types = ""iffffiilnnff"")"
+"2","Error: 'data/titanic.csv' does not exist in current working directory ('/Users/peiwensu/Downloads').
+"

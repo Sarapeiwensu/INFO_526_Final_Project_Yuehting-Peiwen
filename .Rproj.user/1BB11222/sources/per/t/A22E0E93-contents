@@ -1,0 +1,71 @@
+---
+title: "Critiques"
+author: "yuehting"
+date: "5/4/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+
+
+```{r}
+titanic <- read_csv("data/titanic.csv",
+                    col_types = "iffffiilnnff")
+glimpse(titanic)
+```
+
+# Barplot for survival
+```{r}
+barplot1 <- titanic %>%
+  group_by(Survived,Sex) %>%
+  summarize(count = n())%>%
+  mutate(total = sum(count),
+         percentage = count/total)
+
+barplot1 %>%
+  ggplot(aes(x = Survived,
+             y = percentage, 
+             fill = Sex))+
+  geom_col()
+```
+
+# Pclass
+
+```{r}
+barplot_pclass <-titanic %>%
+  group_by(Survived,Pclass) %>%
+  summarize(count = n())%>%
+  mutate(total = sum(count),
+         percentage = count/total)
+
+barplot_pclass%>%
+  arrange(desc(percentage))%>%
+  ggplot(aes(x = reorder(Pclass, percentage),
+             y = percentage,
+             fill = Survived))+
+  geom_col()+
+  facet_wrap(~Survived)+
+  theme_linedraw()
+
+```
+
+```{r}
+library(webr)
+piechart <- titanic %>%
+  group_by(Survived,SibSp) %>%
+  summarize(count = n())
+
+PieDonut(piechart,
+         aes(Survived, SibSp, count = count),
+         r0 = 0.45,
+         r1 = 0.9)
+
+```
+
+
+
